@@ -7,9 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     let btn3 = document.getElementById('btn3'); 
     let diceArray = [];
 
+    // above code pulls in a bunch of relevant html elements, creates a dice container, and declares an array to be populated with dice. 
 
 
-    class Die {
+    class Die {  // this is the pseudoclass Die, when instanced it uses the createDice function to, well, create a new die. It has three methods defined. 
         constructor() {
 
             this.div = document.createElement('div');
@@ -23,25 +24,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.dieRemove(); 
             })
         };
-        roll() {
+        roll() { // roll method simply returns dice rng. 
             return Math.floor(Math.random() * (6 - 1 + 1) + 1)
         };
-        reroll() {
+        reroll() { //reroll method is just the roll method but first clears the innerHTML of the die. 
             this.div.innerHTML = '';
             this.div.innerHTML = this.roll();
         };
-        dieRemove() {
+        dieRemove() { // dieRemove removes the die from the html and from the array we use to determine dice pool sum. 
             this.div.remove(); 
             let that = diceArray.indexOf(this); 
             diceArray.splice(that, 1); 
         }
     };
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', () => { // listens for click on btn, creates a die instance. 
         createDice();
     });
 
-    btn2.addEventListener('click', () => {
+    btn2.addEventListener('click', () => { // listens for click on btn2, fetches sum of all dice innerHTML and reports it using Sweet Alert. 
         let sum = 0;
         diceArray.forEach(getSum);
         swal(`The pool total is ${sum}! 
@@ -56,12 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    btn3.addEventListener('click', function (){
+    btn3.addEventListener('click', function (){ // button three rerolls all dice present in the array (and thus on the page). 
             diceArray.forEach(die => die.reroll()); 
     }); 
 
 
-    function createDice() {
+    function createDice() { // this makes sure we haven't exceeded my arbitrary cap of 8 dice and then populates the page/the array with a new instance of Die. 
         if (diceArray.length < 8) {
         let newDie = new Die();
         diceArray.push(newDie);
